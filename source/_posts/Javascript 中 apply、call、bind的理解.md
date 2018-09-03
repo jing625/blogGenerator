@@ -1,10 +1,10 @@
 ---
 layout: javascript
 title: Javascript 中 apply、call、bind的理解
-date: 2018-08-28 13:16:29
+date: 2018-07-28 13:16:29
 tags:
 ---
-###1.apply、call
+### 1.apply、call
 在 javascript 中，call 和 apply 都是为了改变某个函数运行时的上下文（context）而存在的，换句话说，就是为了改变函数体内部 this 的指向。
 JavaScript 的一大特点是，函数存在「定义时上下文」和「运行时上下文」以及「上下文是可以改变的」这样的概念。
 ```
@@ -35,7 +35,7 @@ apple.say.call(banana);     //My color is yellow
 apple.say.apply(banana);    //My color is yellow
 ```
 所以，可以看出 call 和 apply 是为了动态改变 this 而出现的，当一个 object 没有某个方法（本栗子中banana没有say方法），但是其他的有（本栗子中apple有say方法），我们可以借助call或apply用其它对象的方法来操作。
-###2.apply、call 的区别
+### 2.apply、call 的区别
 对于 apply、call 二者而言，作用完全一样，只是接受参数的方式不太一样。例如，有一个函数定义如下：
 ```
 var func = function(arg1, arg2) {
@@ -78,7 +78,7 @@ var domNodes = Array.prototype.slice.call(document.getElementsByTagName("*"));
 ```
 Javascript中存在一种名为伪数组的对象结构。比较特别的是 arguments 对象，还有像调用 getElementsByTagName , document.childNodes 之类的，它们返回NodeList对象都属于伪数组。不能应用 Array下的 push , pop 等方法。
 但是我们能通过 Array.prototype.slice.call 转换为真正的数组的带有 length 属性的对象，这样 domNodes 就可以应用 Array 下的所有方法了。
-###3.深入理解运用apply、call
+### 3.深入理解运用apply、call
 定义一个 log 方法，让它可以代理 console.log 方法，常见的解决方法是：
 ```
 function log(msg)　{
@@ -108,7 +108,7 @@ function log(){
   console.log.apply(console, args);
 };
 ```
-###4.bind
+### 4.bind
 说完了 apply 和 call ，再来说说bind。bind() 方法与 apply 和 call 很相似，也是可以改变函数体内 this 的指向。
 
 MDN的解释是：bind()方法会创建一个新函数，称为绑定函数，当调用这个绑定函数时，绑定函数会以创建它时传入 bind()方法的第一个参数作为 this，传入 bind() 方法的第二个以及以后的参数加上绑定函数运行时本身的参数按照顺序作为原函数的参数来调用原函数。
@@ -125,11 +125,6 @@ var foo = {
         });
     }
 }
-
-作者：紫陌兰溪
-链接：https://www.jianshu.com/p/307740bc07cb
-來源：简书
-简书著作权归作者所有，任何形式的转载都请联系作者获得授权并注明出处。
 ```
 由于 Javascript 特有的机制，上下文环境在 eventBind:function(){ } 过渡到 $(‘.someClass’).on(‘click’,function(event) { }) 发生了改变，上述使用变量保存 this 这些方式都是有用的，也没有什么问题。当然使用 bind() 可以更加优雅的解决这个问题：
 ```
@@ -175,7 +170,7 @@ var func = bar.bind(foo).bind(sed).bind(fiv);
 func(); //?
 ```
 答案是，两次都仍将输出 3 ，而非期待中的 4 和 5 。原因是，在Javascript中，多次 bind() 是无效的。更深层次的原因， bind() 的实现，相当于使用函数在内部包了一个 call / apply ，第二次 bind() 相当于再包住第一次 bind() ,故第二次以后的 bind 是无法生效的。
-###5.apply、call、bind比较
+### 5.apply、call、bind比较
 1. bind、call和apply方法的相同之处
 前面我们已经说了call和apply的作用相同，区别就在参数的形式不同。bind方法的作用也是改变this的指向。bind方法的参数要求和call方法一样，第一个参数是函数执行上下文的对象，后面的参数可以是多个。
 　　但bind又有自己的特别之处，下面来说说bind的用法上的区别：
